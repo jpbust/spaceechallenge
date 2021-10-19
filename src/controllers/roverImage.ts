@@ -1,44 +1,43 @@
 import {RequestHandler} from 'express';
+import {RoverImage} from '../models/roverImage'
+import { readFileSync, writeFileSync } from 'fs';
+import axios from 'axios';
+import path from 'path';
 const {nasaKey} = require('../../config');
 const nasaEndPoint:string = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos';
-import { readFileSync, writeFile } from 'fs';
-const dataRoute:string = '/Users/cucho/Documents/coding/coding-challenges/spaceechallenge/dates.txt';
+const dataRoute:string = path.join(__dirname, '../../dates.txt')
 
-import {RoverImage} from '../models/roverImage'
 
-let images: RoverImage[] = [];
+let images:any = null;
 
 
 export const createRoverImage: RequestHandler = (req, res) => {
+  let {date} = req.body;
 
-  const readFile = JSON.parse(readFileSync(dataRoute, 'utf8'));
-
-
-
-
-
-  res.send([readFile]);
-  // res.send([readFile]);
-
-
-
-
-  // async function fetchImages (date: string) {
-  //   const params = {earth_date: date, api_key: nasaKey};
-  //   try {
-  //     const response = await axios.get(nasaEndPoint, {params})
-  //     console.log(response)
-  //     res.json({"message": 'New image added', "response": response});
-  //   } catch(error) {
-  //     console.log('error in reoverImageEndpoint: ' + error);
-  //   }
-  // };
-
-  // const newImage = new RoverImage();
-
+  if (images[date]) {
+    //cachee
+    res.send('image in cache')
+  } else {
+    // write the new data into txt.
+    const params = {earth_date: date, api_key: nasaKey}
+    axios.get(nasaEndPoint, {params})
+      .then(({data}:any)=>{
+        let array: string[] = [];
+        data.photos.forEach((photo: any)=>{
+          array = [...array, photo.img_src]
+        })
+        let newPhotos = new RoverImage(date, array);
+        images = JSON.stringify({...images, ...newPhotos});
+        writeFileSync(dataRoute, images)
+        res.send(newPhotos);
+      })
+      .catch((error)=>{console.log(error)})
+  }
 };
 
+
 export const getAllRoverImage: RequestHandler = (req, res) => {
+  // implement a type inferface for readFile
   const readFile = JSON.parse(readFileSync(dataRoute, 'utf8'));
   images = readFile;
   res.send(readFile);
