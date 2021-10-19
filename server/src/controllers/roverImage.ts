@@ -8,9 +8,12 @@ const dataRoute:string = path.join(__dirname, '../../dates.txt')
 
 export const getAllRoverImage: RequestHandler = (req, res) => {
   let {date} = req.body;
+  if (!date) {
+    return res.send('missing params')
+  }
   const readFile = JSON.parse(readFileSync(dataRoute, 'utf8'));
 
-  if (readFile[date]) {
+  if (readFile[date]) { //check in cache/DB
     res.send({[date]: readFile[date]});
   } else {
     const params = {earth_date: date, api_key: nasaKey}

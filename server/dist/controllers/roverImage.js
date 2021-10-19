@@ -12,8 +12,11 @@ const nasaEndPoint = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/p
 const dataRoute = path_1.default.join(__dirname, '../../dates.txt');
 const getAllRoverImage = (req, res) => {
     let { date } = req.body;
+    if (!date) {
+        return res.send('missing params');
+    }
     const readFile = JSON.parse(fs_1.readFileSync(dataRoute, 'utf8'));
-    if (readFile[date]) {
+    if (readFile[date]) { //check in cache/DB
         res.send({ [date]: readFile[date] });
     }
     else {

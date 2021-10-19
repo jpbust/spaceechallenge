@@ -1,0 +1,12 @@
+.header {
+  border: solid 3px red;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  height: 200px;
+  width: 80%;
+
+
+
+}
