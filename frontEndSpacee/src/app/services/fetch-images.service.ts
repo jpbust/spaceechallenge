@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {IMAGES} from '../mock-images'
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +10,18 @@ export class FetchImagesService {
 
   constructor(private http:HttpClient) { }
 
-  getImages(): Observable<any[]> {
+  getImages(): Observable<any> {
 
-    const images = of(IMAGES)
-    return images;
+    let date = '2021-10-19';
+    let params = new HttpParams()
+      .set("date", date);
+    return this.http.get<any>(this.apiUrl, {params});
+  }
 
+  selectDate(newDate:string): Observable<any> {
+    let date = newDate;
+    let params = new HttpParams()
+      .set("date", date);
+    return this.http.get<any>(this.apiUrl, {params});
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -6,14 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent implements OnInit {
+  @Output() onNewImage: EventEmitter<any> = new EventEmitter();
+  @Input() currentDate: any;
+  text: any;
+
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onClick() {
-    console.log('click click')
+
+
+  onSubmit() {
+    if(!this.text) {
+      alert('No date to submit')
+      return;
+    }
+      const newDate = this.text;
+      this.onNewImage.emit(newDate)
+      this.text = ''
+      this.currentDate = newDate;
+
   }
+
 
 }

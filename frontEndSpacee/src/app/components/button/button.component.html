@@ -1,1 +1,8 @@
-<button class='button1' (click)="onClick()">Add more</button>
+<form (ngSubmit)="onSubmit()" >
+  <label>Images for: {{currentDate}}</label>
+  <div class='form-control'>
+    <label for='text'></label>
+    <input type='text' name='text' class='button1' [(ngModel)]="text" id='text' placeholder='Type a date'/>
+  </div>
+  <input type='submit' class='button1' value='fetch date'/>
+</form>

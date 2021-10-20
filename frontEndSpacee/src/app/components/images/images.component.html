@@ -1,10 +1,5 @@
-<form>
-  <div class='form-control'>
-    <label for="text">Date</label>
-    <input type='text' name='text' id='text' placeholder='Select a date'/>
-  </div>
-  <input type='submit' value='show photos for that date'/>
-  <div class='imageContainer'>
+<div class='imageContainer'>
+  <app-button [currentDate]='currentDate' (onNewImage)="selectDate($event)"></app-button>
+  <div class='imagesContainer'>
     <app-image-item *ngFor="let image of images" [image]='image'></app-image-item>
-  </div>
-</form>
+</div>
