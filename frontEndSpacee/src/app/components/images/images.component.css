@@ -1,0 +1,14 @@
+.imageContainer {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.imagesContainer {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}

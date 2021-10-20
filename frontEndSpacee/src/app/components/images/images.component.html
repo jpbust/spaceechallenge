@@ -1,0 +1,5 @@
+<div class='imageContainer'>
+  <app-button [currentDate]='currentDate' (onNewImage)="selectDate($event)"></app-button>
+  <div class='imagesContainer'>
+    <app-image-item *ngFor="let image of images" [image]='image'></app-image-item>
+</div>

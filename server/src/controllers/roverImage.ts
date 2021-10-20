@@ -7,11 +7,16 @@ const nasaEndPoint:string = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curi
 const dataRoute:string = path.join(__dirname, '../../dates.txt')
 
 export const getAllRoverImage: RequestHandler = (req, res) => {
-  let {date} = req.body;
+
+  let {date}:any = req.query;
+
+  if (!date) {
+    return res.send("missing params")
+  }
   const readFile = JSON.parse(readFileSync(dataRoute, 'utf8'));
 
-  if (readFile[date]) {
-    res.send({[date]: readFile[date]});
+  if (readFile[date]) { //check in cache/DB
+    res.send(readFile[date]);
   } else {
     const params = {earth_date: date, api_key: nasaKey}
     axios.get(nasaEndPoint, {params})
@@ -20,11 +25,10 @@ export const getAllRoverImage: RequestHandler = (req, res) => {
         data.photos.forEach((photo: any)=>{
           arrayOfUrls = [...arrayOfUrls, photo.img_src]
         })
-
         let newPhotos = {[date]: arrayOfUrls}
         let imagesToSync = JSON.stringify({...readFile, ...newPhotos});
         writeFileSync(dataRoute, imagesToSync);
-        res.send(newPhotos);
+        res.send(arrayOfUrls);
       })
       .catch((error)=>{console.log(error)})
   }
