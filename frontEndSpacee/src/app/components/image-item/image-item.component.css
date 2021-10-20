@@ -1,4 +1,10 @@
 img {
-  margin: 10px;
+  margin: 8px;
   border: solid gray 2px;
+  padding: 11px;
+}
+
+img:hover {
+  margin: 10px;
+  border: solid orange 5px;
 }
