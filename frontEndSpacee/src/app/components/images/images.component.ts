@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchImagesService } from '../../services/fetch-images.service';
-import {IMAGES} from '../../mock-images'
+// import {IMAGES} from '../../mock-images'
 
 @Component({
   selector: 'app-images',
@@ -8,15 +8,15 @@ import {IMAGES} from '../../mock-images'
   styleUrls: ['./images.component.css']
 })
 export class ImagesComponent implements OnInit {
-  images = IMAGES;
+  images: any = [];
 
 
-  constructor() { }
+  constructor(private imageService: FetchImagesService) { }
 
   ngOnInit(): void {
-    // this.imageService.getImages().subscribe((urls: any)=>{
-    //   // this.images = urls;
-    // });
+    this.imageService.getImages().subscribe((images)=>{
+      this.images = images
+    });
   }
 
 }

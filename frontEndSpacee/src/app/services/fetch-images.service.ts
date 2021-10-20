@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http'
+import { Observable, of } from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {IMAGES} from '../mock-images'
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,10 @@ export class FetchImagesService {
 
   constructor(private http:HttpClient) { }
 
-  // getImages() {
-  //   console.log('getImage run')
-  //   return this.http.get(this.apiUrl)
+  getImages(): Observable<any[]> {
 
-  // }
+    const images = of(IMAGES)
+    return images;
 
-  // return this.fetching.get(this.apiUrl)
-
+  }
 }
