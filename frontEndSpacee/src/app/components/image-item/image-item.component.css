@@ -1,10 +1,9 @@
 img {
-  margin: 8px;
   border: solid gray 2px;
   padding: 11px;
 }
 
 img:hover {
-  margin: 10px;
+  padding: 8px;
   border: solid orange 5px;
 }
